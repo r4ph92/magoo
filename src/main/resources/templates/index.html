@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magoo Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1f2937;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        p {
+            color: #374151;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .card p {
+            font-size: 14px;
+            min-height: 40px;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 16px;
+            text-decoration: none;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .card a:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Administration Magoo</h1>
+</header>
+
+<main>
+    <p>Bienvenue dans l’interface d’administration des cliniques Magoo.</p>
+
+    <div class="grid">
+        <div class="card">
+            <h2>Patients</h2>
+            <p>Gérer les dossiers patients, leurs informations et leurs relations.</p>
+            <a href="/patients">Accéder</a>
+        </div>
+
+        <div class="card">
+            <h2>Docteurs</h2>
+            <p>Consulter et gérer les docteurs ainsi que leur clinique.</p>
+            <a href="/docteurs">Accéder</a>
+        </div>
+
+        <div class="card">
+            <h2>Cliniques</h2>
+            <p>Gérer les cliniques et leur ville associée.</p>
+            <a href="/cliniques">Accéder</a>
+        </div>
+
+        <div class="card">
+            <h2>Villes</h2>
+            <p>Voir et modifier les villes utilisées par le système.</p>
+            <a href="/villes">Accéder</a>
+        </div>
+
+        <div class="card">
+            <h2>Téléphones</h2>
+            <p>Consulter les numéros liés aux patients.</p>
+            <a href="/telephones">Accéder</a>
+        </div>
+
+        <div class="card">
+            <h2>Examens</h2>
+            <p>Gérer les examens et les types d’examens.</p>
+            <a href="/examens">Accéder</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
