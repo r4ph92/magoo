@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Dossier patient')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="main-content">
+    <div class="page-header">
+        <div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
+                <a th:href="@{/patients}" style="color: var(--text-muted); text-decoration: none;">Patients</a>
+                &rsaquo; Dossier
+            </div>
+            <h1 class="page-title" th:text="${patient.nomComplet}"></h1>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a th:href="@{/patients/{id}/edit(id=${patient.id})}" class="btn btn-secondary">Modifier</a>
+            <form th:action="@{/patients/{id}/delete(id=${patient.id})}" method="post"
+                  onsubmit="return confirm('Supprimer ce patient ?')">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="page-body" style="display: flex; flex-direction: column; gap: 20px;">
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+        <!-- Badges statut -->
+        <div style="display: flex; gap: 8px;">
+            <span th:if="${patient.estDecede}" class="badge badge-red">Décédé</span>
+            <span th:if="${patient.nePasRappeler}" class="badge badge-gray">Ne pas rappeler</span>
+            <span th:if="${!patient.estDecede and !patient.nePasRappeler}" class="badge badge-green">Actif</span>
+            <span th:if="${patient.dossierNo != null}" class="badge badge-blue">Dossier #<span th:text="${patient.dossierNo}"></span></span>
+        </div>
+
+        <!-- Informations personnelles -->
+        <div class="card card-body">
+            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 16px;">Informations personnelles</div>
+            <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
+                <div>
+                    <div class="form-label">Prénom</div>
+                    <div th:text="${patient.prenom}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Nom</div>
+                    <div th:text="${patient.nom}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Sexe</div>
+                    <div th:text="${patient.sexe ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Date de naissance</div>
+                    <div th:text="${patient.dateNaissance != null ? #temporals.format(patient.dateNaissance, 'dd/MM/yyyy') : '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Langue</div>
+                    <div th:text="${patient.langue ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Profession</div>
+                    <div th:text="${patient.profession ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Courriel</div>
+                    <div th:text="${patient.courriel ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Dossier créé le</div>
+                    <div th:text="${patient.dateCreation != null ? #temporals.format(patient.dateCreation, 'dd/MM/yyyy') : '—'}"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adresse -->
+        <div class="card card-body">
+            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 16px;">Adresse</div>
+            <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
+                <div>
+                    <div class="form-label">Rue</div>
+                    <div th:text="${patient.adresseRue ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Appartement</div>
+                    <div th:text="${patient.adresseAppart ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Code postal</div>
+                    <div th:text="${patient.codePostal ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Ville</div>
+                    <div th:text="${patient.ville != null ? patient.ville.nom + ', ' + patient.ville.province : '—'}"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations médicales -->
+        <div class="card card-body">
+            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 16px;">Informations médicales</div>
+            <div class="form-row" style="grid-template-columns: repeat(3, 1fr);">
+                <div>
+                    <div class="form-label">No. dossier</div>
+                    <div th:text="${patient.dossierNo ?: '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">RAMQ — expiration</div>
+                    <div th:text="${patient.ramqDateExp != null ? #temporals.format(patient.ramqDateExp, 'dd/MM/yyyy') : '—'}"></div>
+                </div>
+                <div>
+                    <div class="form-label">Médecin</div>
+                    <div th:if="${patient.docteur != null}">
+                        <span th:text="${patient.docteur.nomComplet}"></span>
+                        <span th:if="${patient.docteur.clinique != null}" class="text-muted"
+                              th:text="' — ' + ${patient.docteur.clinique.nom}"></span>
+                    </div>
+                    <div th:if="${patient.docteur == null}">—</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Téléphones -->
+        <div class="card">
+            <div style="padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted);">
+                Téléphones
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Numéro</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${telephones.empty}">
+                            <td colspan="2" class="empty-state">Aucun numéro enregistré.</td>
+                        </tr>
+                        <tr th:each="tel : ${telephones}">
+                            <td th:text="${tel.numero}"></td>
+                            <td th:text="${tel.typeTel ?: '—'}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Examens -->
+        <div class="card">
+            <div style="padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted);">
+                Examens
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type d'examen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${examens.empty}">
+                            <td colspan="2" class="empty-state">Aucun examen enregistré.</td>
+                        </tr>
+                        <tr th:each="ex : ${examens}">
+                            <td th:text="${#temporals.format(ex.dateExamen, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${ex.listeExamen.nom}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Modifier patient')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="main-content">
+    <div class="page-header">
+        <div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
+                <a th:href="@{/patients}" style="color: var(--text-muted); text-decoration: none;">Patients</a>
+                &rsaquo; <a th:href="@{/patients/{id}(id=${patient.id})}"
+                            style="color: var(--text-muted); text-decoration: none;"
+                            th:text="${patient.nomComplet}"></a>
+                &rsaquo; Modifier
+            </div>
+            <h1 class="page-title" th:text="'Modifier — ' + ${patient.nomComplet}"></h1>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <form th:action="@{/patients/{id}(id=${patient.id})}" method="post" th:object="${patient}" style="max-width: 860px; display: flex; flex-direction: column; gap: 20px;">
+
+            <!-- Identité -->
+            <div class="card card-body">
+                <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 16px;">Identité</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">No. dossier</label>
+                        <input type="number" th:field="*{dossierNo}" class="form-control">
+                    </div>
+                    <div></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prénom <span class="required">*</span></label>
+                        <input type="text" th:field="*{prenom}" class="form-control" required maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom <span class="required">*</span></label>
+                        <input type="text" th:field="*{nom}" class="form-control" required maxlength="100">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Sexe</label>
+                        <select th:field="*{sexe}" class="form-control">
+                            <option value="">— Sélectionner —</option>
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date de naissance</label>
+                        <input type="date" th:field="*{dateNaissance}" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Langue</label>
+                        <input type="text" th:field="*{langue}" class="form-control" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Profession</label>
+                        <input type="text" th:field="*{profession}" class="form-control" maxlength="150">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Courriel</label>
+                    <input type="email" th:field="*{courriel}" class="form-control" maxlength="150">
+                </div>
+            </div>
+
+            <!-- Adresse -->
+            <div class="card card-body">
+                <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 16px;">Adresse</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Rue</label>
+                        <input type="text" th:field="*{adresseRue}" class="form-control" maxlength="200">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Appartement</label>
+                        <input type="text" th:field="*{adresseAppart}" class="form-control" maxlength="50">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Code postal</label>
+                        <input type="text" th:field="*{codePostal}" class="form-control" maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ville</label>
+                        <select name="villeId" class="form-control">
+                            <option value="">— Sélectionner —</option>
+                            <option th:each="v : ${villes}"
+                                    th:value="${v.id}"
+                                    th:text="${v.nom + ', ' + v.province}"
+                                    th:selected="${patient.ville != null and patient.ville.id == v.id}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations médicales -->
+            <div class="card card-body">
+                <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 16px;">Informations médicales</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">RAMQ — date d'expiration</label>
+                        <input type="date" th:field="*{ramqDateExp}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Médecin</label>
+                        <select name="docteurId" class="form-control">
+                            <option value="">— Sélectionner —</option>
+                            <option th:each="d : ${docteurs}"
+                                    th:value="${d.id}"
+                                    th:text="${d.nomComplet + (d.clinique != null ? ' — ' + d.clinique.nom : '')}"
+                                    th:selected="${patient.docteur != null and patient.docteur.id == d.id}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 24px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" th:field="*{nePasRappeler}"> Ne pas rappeler
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" th:field="*{estDecede}"> Décédé
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a th:href="@{/patients/{id}(id=${patient.id})}" class="btn btn-secondary">Annuler</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

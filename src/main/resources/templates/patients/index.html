@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Patients')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Patients</h1>
+        <a th:href="@{/patients/create}" class="btn btn-primary">+ Nouveau patient</a>
+    </div>
+
+    <div class="page-body">
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No dossier</th>
+                            <th>Nom</th>
+                            <th>Date de naissance</th>
+                            <th>Courriel</th>
+                            <th>Médecin</th>
+                            <th>Statut</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${patients.empty}">
+                            <td colspan="7" class="empty-state">Aucun patient enregistré.</td>
+                        </tr>
+                        <tr th:each="p : ${patients}">
+                            <td class="text-muted" th:text="${p.dossierNo ?: '—'}"></td>
+                            <td>
+                                <a th:href="@{/patients/{id}(id=${p.id})}"
+                                   style="font-weight: 500; color: var(--text-primary); text-decoration: none;"
+                                   th:text="${p.nomComplet}"></a>
+                            </td>
+                            <td th:text="${p.dateNaissance != null ? #temporals.format(p.dateNaissance, 'dd/MM/yyyy') : '—'}"></td>
+                            <td th:text="${p.courriel ?: '—'}"></td>
+                            <td th:text="${p.docteur != null ? p.docteur.nomComplet : '—'}"></td>
+                            <td>
+                                <span th:if="${p.estDecede}" class="badge badge-red">Décédé</span>
+                                <span th:if="${p.nePasRappeler and !p.estDecede}" class="badge badge-gray">Ne pas rappeler</span>
+                                <span th:if="${!p.estDecede and !p.nePasRappeler}" class="badge badge-green">Actif</span>
+                            </td>
+                            <td>
+                                <div class="td-actions">
+                                    <a th:href="@{/patients/{id}(id=${p.id})}" class="btn btn-secondary btn-sm">Voir</a>
+                                    <a th:href="@{/patients/{id}/edit(id=${p.id})}" class="btn btn-secondary btn-sm">Modifier</a>
+                                    <form th:action="@{/patients/{id}/delete(id=${p.id})}" method="post"
+                                          onsubmit="return confirm('Supprimer ce patient ?')">
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
