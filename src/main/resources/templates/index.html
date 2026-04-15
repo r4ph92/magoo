@@ -1,124 +1,67 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magoo Admin</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #1f2937;
-            color: white;
-            padding: 20px 40px;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        h1 {
-            margin: 0;
-        }
-
-        p {
-            color: #374151;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-
-        .card h2 {
-            margin-top: 0;
-            font-size: 20px;
-            color: #111827;
-        }
-
-        .card p {
-            font-size: 14px;
-            min-height: 40px;
-        }
-
-        .card a {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 10px 16px;
-            text-decoration: none;
-            background-color: #2563eb;
-            color: white;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .card a:hover {
-            background-color: #1d4ed8;
-        }
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Accueil')}"></head>
 <body>
-<header>
-    <h1>Administration Magoo</h1>
-</header>
 
-<main>
-    <p>Bienvenue dans l’interface d’administration des cliniques Magoo.</p>
+<div th:replace="~{fragments/layout :: sidebar}"></div>
 
-    <div class="grid">
-        <div class="card">
-            <h2>Patients</h2>
-            <p>Gérer les dossiers patients, leurs informations et leurs relations.</p>
-            <a href="/patients">Accéder</a>
-        </div>
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Tableau de bord</h1>
+    </div>
 
-        <div class="card">
-            <h2>Docteurs</h2>
-            <p>Consulter et gérer les docteurs ainsi que leur clinique.</p>
-            <a href="/docteurs">Accéder</a>
-        </div>
+    <div class="page-body">
+        <p style="color: var(--text-secondary); margin-bottom: 24px;">
+            Bienvenue dans l'interface d'administration des cliniques Magoo.
+        </p>
 
-        <div class="card">
-            <h2>Cliniques</h2>
-            <p>Gérer les cliniques et leur ville associée.</p>
-            <a href="/cliniques">Accéder</a>
-        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
 
-        <div class="card">
-            <h2>Villes</h2>
-            <p>Voir et modifier les villes utilisées par le système.</p>
-            <a href="/villes">Accéder</a>
-        </div>
+            <a href="/patients" style="text-decoration: none;">
+                <div class="card card-body" style="transition: box-shadow 0.15s;">
+                    <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;">Patients</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">Gérer les dossiers patients</div>
+                </div>
+            </a>
 
-        <div class="card">
-            <h2>Téléphones</h2>
-            <p>Consulter les numéros liés aux patients.</p>
-            <a href="/telephones">Accéder</a>
-        </div>
+            <a href="/docteurs" style="text-decoration: none;">
+                <div class="card card-body">
+                    <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;">Docteurs</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">Gérer les médecins et cliniques</div>
+                </div>
+            </a>
 
-        <div class="card">
-            <h2>Examens</h2>
-            <p>Gérer les examens et les types d’examens.</p>
-            <a href="/examens">Accéder</a>
+            <a href="/cliniques" style="text-decoration: none;">
+                <div class="card card-body">
+                    <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;">Cliniques</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">Gérer les cliniques et villes</div>
+                </div>
+            </a>
+
+            <a href="/villes" style="text-decoration: none;">
+                <div class="card card-body">
+                    <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;">Villes</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">Voir et modifier les villes</div>
+                </div>
+            </a>
+
+            <a href="/telephones" style="text-decoration: none;">
+                <div class="card card-body">
+                    <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;">Téléphones</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">Numéros liés aux patients</div>
+                </div>
+            </a>
+
+            <a href="/examens" style="text-decoration: none;">
+                <div class="card card-body">
+                    <div style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;">Examens</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">Gérer les examens et types</div>
+                </div>
+            </a>
+
         </div>
     </div>
-</main>
+</div>
+
 </body>
 </html>
