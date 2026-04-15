@@ -15,6 +15,45 @@
 
         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
 
+        <!-- Filtres -->
+        <form method="get" th:action="@{/patients}" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-end;">
+            <div>
+                <label class="form-label" style="font-size: 11px;">Ville</label>
+                <select name="villeId" class="form-control" style="min-width: 140px;">
+                    <option value="">Toutes les villes</option>
+                    <option th:each="v : ${villes}" th:value="${v.id}" th:text="${v.nom}"
+                            th:selected="${villeId != null and villeId == v.id}"></option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label" style="font-size: 11px;">Médecin</label>
+                <select name="docteurId" class="form-control" style="min-width: 160px;">
+                    <option value="">Tous les médecins</option>
+                    <option th:each="d : ${docteurs}" th:value="${d.id}" th:text="${d.nomComplet}"
+                            th:selected="${docteurId != null and docteurId == d.id}"></option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label" style="font-size: 11px;">Sexe</label>
+                <select name="sexe" class="form-control">
+                    <option value="">Tous</option>
+                    <option value="Homme" th:selected="${sexe == 'Homme'}">Homme</option>
+                    <option value="Femme" th:selected="${sexe == 'Femme'}">Femme</option>
+                    <option value="Autre" th:selected="${sexe == 'Autre'}">Autre</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label" style="font-size: 11px;">Rappel</label>
+                <select name="nePasRappeler" class="form-control">
+                    <option value="">Tous</option>
+                    <option value="false" th:selected="${nePasRappeler != null and !nePasRappeler}">À rappeler</option>
+                    <option value="true" th:selected="${nePasRappeler != null and nePasRappeler}">Ne pas rappeler</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">Filtrer</button>
+            <a th:href="@{/patients}" class="btn btn-secondary">Réinitialiser</a>
+        </form>
+
         <div class="card">
             <div class="table-container">
                 <table>

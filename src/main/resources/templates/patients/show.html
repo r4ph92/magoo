@@ -123,8 +123,8 @@
 
         <!-- Téléphones -->
         <div class="card">
-            <div style="padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted);">
-                Téléphones
+            <div style="padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted);">Téléphones</span>
             </div>
             <div class="table-container">
                 <table>
@@ -132,18 +132,45 @@
                         <tr>
                             <th>Numéro</th>
                             <th>Type</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:if="${telephones.empty}">
-                            <td colspan="2" class="empty-state">Aucun numéro enregistré.</td>
+                            <td colspan="3" class="empty-state">Aucun numéro enregistré.</td>
                         </tr>
                         <tr th:each="tel : ${telephones}">
                             <td th:text="${tel.numero}"></td>
                             <td th:text="${tel.typeTel ?: '—'}"></td>
+                            <td>
+                                <form th:action="@{/patients/{id}/telephones/{telId}/delete(id=${patient.id},telId=${tel.id})}"
+                                      method="post" onsubmit="return confirm('Supprimer ce numéro ?')">
+                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <!-- Formulaire d'ajout -->
+            <div style="padding: 16px 24px; border-top: 1px solid var(--border);">
+                <form th:action="@{/patients/{id}/telephones(id=${patient.id})}" method="post"
+                      style="display: flex; gap: 10px; align-items: flex-end;">
+                    <div>
+                        <label class="form-label" style="font-size: 11px;">Numéro</label>
+                        <input type="text" name="numero" class="form-control" maxlength="20" required placeholder="514-555-1234">
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 11px;">Type</label>
+                        <select name="typeTel" class="form-control">
+                            <option value="">— Aucun —</option>
+                            <option>Cellulaire</option>
+                            <option>Maison</option>
+                            <option>Travail</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </form>
             </div>
         </div>
 

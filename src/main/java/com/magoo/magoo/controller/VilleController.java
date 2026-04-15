@@ -1,7 +1,7 @@
 package com.magoo.magoo.controller;
 
 import com.magoo.magoo.entity.Ville;
-import com.magoo.magoo.repository.VilleRepository;
+import com.magoo.magoo.service.VilleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +13,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class VilleController {
 
-    private final VilleRepository villeRepository;
+    private final VilleService villeService;
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("villes", villeRepository.findAllOrdered());
+        model.addAttribute("villes", villeService.findAll());
         return "villes/index";
     }
 
@@ -29,14 +29,14 @@ public class VilleController {
 
     @PostMapping
     public String store(@ModelAttribute Ville ville, RedirectAttributes ra) {
-        villeRepository.save(ville);
+        villeService.save(ville);
         ra.addFlashAttribute("success", "Ville créée avec succès.");
         return "redirect:/villes";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable Integer id, Model model) {
-        Ville ville = villeRepository.findById(id).orElse(null);
+        Ville ville = villeService.findById(id);
         if (ville == null) return "redirect:/villes";
 
         model.addAttribute("ville", ville);
@@ -46,14 +46,14 @@ public class VilleController {
     @PostMapping("/{id}")
     public String update(@PathVariable Integer id, @ModelAttribute Ville ville, RedirectAttributes ra) {
         ville.setId(id);
-        villeRepository.save(ville);
+        villeService.save(ville);
         ra.addFlashAttribute("success", "Ville modifiée avec succès.");
         return "redirect:/villes";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Integer id, RedirectAttributes ra) {
-        villeRepository.deleteById(id);
+        villeService.delete(id);
         ra.addFlashAttribute("success", "Ville supprimée.");
         return "redirect:/villes";
     }
