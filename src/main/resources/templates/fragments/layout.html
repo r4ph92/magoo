@@ -31,7 +31,7 @@
         <div class="nav-section-label">Personnes</div>
 
         <a th:href="@{/patients}"
-           th:classappend="${#request.requestURI.startsWith('/patients')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/patients')} ? ' active'"
            class="nav-link">
             <!-- person icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -43,7 +43,7 @@
         </a>
 
         <a th:href="@{/docteurs}"
-           th:classappend="${#request.requestURI.startsWith('/docteurs')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/docteurs')} ? ' active'"
            class="nav-link">
             <!-- stethoscope-like icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -58,7 +58,7 @@
         <div class="nav-section-label">Établissements</div>
 
         <a th:href="@{/cliniques}"
-           th:classappend="${#request.requestURI.startsWith('/cliniques')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/cliniques')} ? ' active'"
            class="nav-link">
             <!-- building icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -70,7 +70,7 @@
         </a>
 
         <a th:href="@{/villes}"
-           th:classappend="${#request.requestURI.startsWith('/villes')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/villes')} ? ' active'"
            class="nav-link">
             <!-- map pin icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -84,7 +84,7 @@
         <div class="nav-section-label">Dossiers</div>
 
         <a th:href="@{/telephones}"
-           th:classappend="${#request.requestURI.startsWith('/telephones')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/telephones')} ? ' active'"
            class="nav-link">
             <!-- phone icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -95,7 +95,7 @@
         </a>
 
         <a th:href="@{/examens}"
-           th:classappend="${#request.requestURI.startsWith('/examens')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/examens')} ? ' active'"
            class="nav-link">
             <!-- clipboard icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -108,7 +108,7 @@
         </a>
 
         <a th:href="@{/liste-examens}"
-           th:classappend="${#request.requestURI.startsWith('/liste-examens')} ? ' active'"
+           th:classappend="${currentUri != null and currentUri.startsWith('/liste-examens')} ? ' active'"
            class="nav-link">
             <!-- list icon -->
             <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -126,7 +126,7 @@
     </nav>
 
     <div class="sidebar-footer">
-        Magoo &copy; 2025
+        Magoo &copy; 2026
     </div>
 
 </div>
