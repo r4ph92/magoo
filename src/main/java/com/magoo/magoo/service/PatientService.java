@@ -45,6 +45,11 @@ public class PatientService {
         // ORDER BY p.nom, p.prenom
     }
 
+    public List<Telephone> findTelephonesByPatientId(Integer patientId) {
+        return telephoneRepository.findByPatientId(patientId);
+        // SELECT * FROM telephone WHERE id_patient = ?
+    }
+
     @Transactional
     public void addTelephone(Integer patientId, Telephone telephone) {
         telephone.setPatient(patientRepository.getReferenceById(patientId));

@@ -44,7 +44,7 @@ public class PatientController {
         if (patient == null) return "redirect:/patients";
 
         model.addAttribute("patient", patient);
-        model.addAttribute("telephones", telephoneService.findByPatientId(id));
+        model.addAttribute("telephones", patientService.findTelephonesByPatientId(id));
         model.addAttribute("examens", examenService.findByPatientId(id));
         return "patients/show";
     }
