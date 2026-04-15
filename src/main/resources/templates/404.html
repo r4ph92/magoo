@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Page introuvable')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Page introuvable</h1>
+    </div>
+
+    <div class="page-body">
+        <div class="card card-body" style="max-width: 480px;">
+            <div style="font-size: 48px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">404</div>
+            <div style="font-size: 15px; color: var(--text-secondary); margin-bottom: 20px;">
+                La page que vous cherchez n'existe pas ou a été déplacée.
+            </div>
+            <a th:href="@{/}" class="btn btn-primary" style="display: inline-block; width: fit-content;">
+                Retour au tableau de bord
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
