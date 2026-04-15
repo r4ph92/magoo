@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Liste d\'examens')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Types d'examens</h1>
+        <a th:href="@{/liste-examens/create}" class="btn btn-primary">+ Nouveau type</a>
+    </div>
+
+    <div class="page-body">
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+        <div class="card">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${listeExamens.empty}">
+                            <td colspan="2" class="empty-state">Aucun type d'examen enregistré.</td>
+                        </tr>
+                        <tr th:each="le : ${listeExamens}">
+                            <td style="font-weight: 500;" th:text="${le.nom}"></td>
+                            <td>
+                                <div class="td-actions">
+                                    <a th:href="@{/liste-examens/{id}/edit(id=${le.id})}" class="btn btn-secondary btn-sm">Modifier</a>
+                                    <form th:action="@{/liste-examens/{id}/delete(id=${le.id})}" method="post"
+                                          onsubmit="return confirm('Supprimer ce type d\'examen ?')">
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -16,4 +16,12 @@ public interface ExamenRepository extends JpaRepository<Examen, Integer> {
     // WHERE e.id_patient = :patientId
     // ORDER BY e.date_examen DESC
     List<Examen> findByPatientIdWithDetails(@Param("patientId") Integer patientId);
+
+    @Query("SELECT e FROM Examen e LEFT JOIN FETCH e.listeExamen LEFT JOIN FETCH e.patient ORDER BY e.dateExamen DESC")
+    // SELECT e.*, le.*, p.*
+    // FROM examen e
+    // LEFT JOIN liste_examen le ON e.id_liste_examen = le.id
+    // LEFT JOIN patient p ON e.id_patient = p.id
+    // ORDER BY e.date_examen DESC
+    List<Examen> findAllWithDetails();
 }

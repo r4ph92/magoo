@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head th:replace="~{fragments/layout :: head('Nouvel examen')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="main-content">
+    <div class="page-header">
+        <div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
+                <a th:href="@{/examens}" style="color: var(--text-muted); text-decoration: none;">Examens</a>
+                &rsaquo; Nouveau
+            </div>
+            <h1 class="page-title">Nouvel examen</h1>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <form th:action="@{/examens}" method="post" th:object="${examen}" style="max-width: 520px; display: flex; flex-direction: column; gap: 20px;">
+
+            <div class="card card-body" style="display: flex; flex-direction: column; gap: 0;">
+                <div class="form-group">
+                    <label class="form-label">Patient <span class="required">*</span></label>
+                    <select name="patientId" class="form-control" required>
+                        <option value="">— Sélectionner —</option>
+                        <option th:each="p : ${patients}"
+                                th:value="${p.id}"
+                                th:text="${p.prenom + ' ' + p.nom}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Type d'examen <span class="required">*</span></label>
+                    <select name="listeExamenId" class="form-control" required>
+                        <option value="">— Sélectionner —</option>
+                        <option th:each="le : ${listeExamens}" th:value="${le.id}" th:text="${le.nom}"></option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Date <span class="required">*</span></label>
+                    <input type="date" th:field="*{dateExamen}" class="form-control" required>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">Créer</button>
+                <a th:href="@{/examens}" class="btn btn-secondary">Annuler</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
