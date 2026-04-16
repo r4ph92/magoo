@@ -32,17 +32,19 @@ public class PatientService {
     }
 
     public List<Patient> findWithFilters(Integer villeId, Integer docteurId, String sexe, Boolean nePasRappeler) {
-        return patientRepository.findWithFilters(villeId, docteurId, sexe, nePasRappeler);
         // SELECT p.*, d.*, c.*, v.*
         // FROM patient p
         // LEFT JOIN docteur d ON p.id_docteur = d.id
         // LEFT JOIN clinique c ON d.id_clinique = c.id
         // LEFT JOIN ville v ON p.id_ville = v.id
-        // WHERE (:villeId IS NULL OR p.id_ville = :villeId)
-        //   AND (:docteurId IS NULL OR p.id_docteur = :docteurId)
-        //   AND (:sexe IS NULL OR p.sexe = :sexe)
-        //   AND (:nePasRappeler IS NULL OR p.ne_pas_rappeler = :nePasRappeler)
         // ORDER BY p.nom, p.prenom
+        // (filtres optionnels appliqués en mémoire)
+        return patientRepository.findAllWithDetails().stream()
+            .filter(p -> villeId == null || (p.getVille() != null && p.getVille().getId().equals(villeId)))
+            .filter(p -> docteurId == null || (p.getDocteur() != null && p.getDocteur().getId().equals(docteurId)))
+            .filter(p -> sexe == null || sexe.isEmpty() || sexe.equals(p.getSexe()))
+            .filter(p -> nePasRappeler == null || nePasRappeler.equals(p.getNePasRappeler()))
+            .toList();
     }
 
     public List<Telephone> findTelephonesByPatientId(Integer patientId) {
