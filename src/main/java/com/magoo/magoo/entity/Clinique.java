@@ -1,13 +1,11 @@
 package com.magoo.magoo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "clinique")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Clinique {
 
     @Id

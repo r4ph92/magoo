@@ -1,15 +1,13 @@
 package com.magoo.magoo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "patient")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Patient {
 
     @Id

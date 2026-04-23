@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "ville")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Ville {
 
     @Id
@@ -22,9 +23,4 @@ public class Ville {
 
     @Column(length = 50)
     private String pays;
-
-    @Override
-    public String toString() {
-        return nom + (province != null ? ", " + province : "");
-    }
 }
