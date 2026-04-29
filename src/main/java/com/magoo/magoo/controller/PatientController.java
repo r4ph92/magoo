@@ -1,9 +1,11 @@
 package com.magoo.magoo.controller;
 
+import com.magoo.magoo.entity.Examen;
 import com.magoo.magoo.entity.Patient;
 import com.magoo.magoo.entity.Telephone;
 import com.magoo.magoo.service.DocteurService;
 import com.magoo.magoo.service.ExamenService;
+import com.magoo.magoo.service.ListeExamenService;
 import com.magoo.magoo.service.PatientService;
 import com.magoo.magoo.service.VilleService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class PatientController {
     private final VilleService villeService;
     private final DocteurService docteurService;
     private final ExamenService examenService;
+    private final ListeExamenService listeExamenService;
 
     @GetMapping
     public String index(@RequestParam(required = false) Integer villeId,
@@ -46,6 +49,7 @@ public class PatientController {
         model.addAttribute("patient", patient);
         model.addAttribute("telephones", patientService.findTelephonesByPatientId(id));
         model.addAttribute("examens", examenService.findByPatientId(id));
+        model.addAttribute("listeExamens", listeExamenService.findAll());
         return "patients/show";
     }
 
@@ -95,6 +99,25 @@ public class PatientController {
         patientService.delete(id);
         ra.addFlashAttribute("success", "Patient supprimé.");
         return "redirect:/patients";
+    }
+
+    @PostMapping("/{id}/examens")
+    public String addExamen(@PathVariable Integer id,
+                            @ModelAttribute Examen examen,
+                            @RequestParam Integer listeExamenId,
+                            RedirectAttributes ra) {
+        examenService.save(examen, id, listeExamenId);
+        ra.addFlashAttribute("success", "Examen ajouté.");
+        return "redirect:/patients/" + id;
+    }
+
+    @PostMapping("/{id}/examens/{examenId}/delete")
+    public String deleteExamen(@PathVariable Integer id,
+                               @PathVariable Integer examenId,
+                               RedirectAttributes ra) {
+        examenService.delete(examenId);
+        ra.addFlashAttribute("success", "Examen supprimé.");
+        return "redirect:/patients/" + id;
     }
 
     @PostMapping("/{id}/telephones")

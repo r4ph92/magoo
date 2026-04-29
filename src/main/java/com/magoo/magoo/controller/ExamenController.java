@@ -44,13 +44,16 @@ public class ExamenController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id,
+                       @RequestParam(required = false) Integer returnPatientId,
+                       Model model) {
         Examen examen = examenService.findById(id);
         if (examen == null) return "redirect:/examens";
 
         model.addAttribute("examen", examen);
         model.addAttribute("patients", patientService.findAll());
         model.addAttribute("listeExamens", listeExamenService.findAll());
+        model.addAttribute("returnPatientId", returnPatientId);
         return "examens/edit";
     }
 
@@ -59,10 +62,12 @@ public class ExamenController {
                          @ModelAttribute Examen examen,
                          @RequestParam Integer patientId,
                          @RequestParam Integer listeExamenId,
+                         @RequestParam(required = false) Integer returnPatientId,
                          RedirectAttributes ra) {
         examen.setId(id);
         examenService.save(examen, patientId, listeExamenId);
         ra.addFlashAttribute("success", "Examen modifié avec succès.");
+        if (returnPatientId != null) return "redirect:/patients/" + returnPatientId;
         return "redirect:/examens";
     }
 

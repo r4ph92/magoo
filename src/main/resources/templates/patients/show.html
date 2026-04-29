@@ -185,18 +185,46 @@
                         <tr>
                             <th>Date</th>
                             <th>Type d'examen</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:if="${examens.empty}">
-                            <td colspan="2" class="empty-state">Aucun examen enregistré.</td>
+                            <td colspan="3" class="empty-state">Aucun examen enregistré.</td>
                         </tr>
                         <tr th:each="ex : ${examens}">
                             <td th:text="${#temporals.format(ex.dateExamen, 'dd/MM/yyyy')}"></td>
                             <td th:text="${ex.listeExamen.nom}"></td>
+                            <td>
+                                <div class="td-actions">
+                                    <a th:href="@{/examens/{eid}/edit(eid=${ex.id}, returnPatientId=${patient.id})}" class="btn btn-secondary btn-sm">Modifier</a>
+                                    <form th:action="@{/patients/{id}/examens/{eid}/delete(id=${patient.id},eid=${ex.id})}" method="post"
+                                          onsubmit="return confirm('Supprimer cet examen ?')">
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <!-- Formulaire d'ajout -->
+            <div style="padding: 16px 24px; border-top: 1px solid var(--border);">
+                <form th:action="@{/patients/{id}/examens(id=${patient.id})}" method="post"
+                      style="display: flex; gap: 10px; align-items: flex-end;">
+                    <div>
+                        <label class="form-label" style="font-size: 11px;">Type d'examen</label>
+                        <select name="listeExamenId" class="form-control" required>
+                            <option value="">— Sélectionner —</option>
+                            <option th:each="type : ${listeExamens}" th:value="${type.id}" th:text="${type.nom}"></option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 11px;">Date</label>
+                        <input type="date" name="dateExamen" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </form>
             </div>
         </div>
 

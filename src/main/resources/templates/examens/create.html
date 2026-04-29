@@ -34,7 +34,7 @@
                     <label class="form-label">Type d'examen <span class="required">*</span></label>
                     <select name="listeExamenId" class="form-control" required>
                         <option value="">— Sélectionner —</option>
-                        <option th:each="le : ${listeExamens}" th:value="${le.id}" th:text="${le.nom}"></option>
+                        <option th:each="type : ${listeExamens}" th:value="${type.id}" th:text="${type.nom}"></option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">

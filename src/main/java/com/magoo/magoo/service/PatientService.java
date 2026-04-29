@@ -31,6 +31,8 @@ public class PatientService {
         // ORDER BY p.nom, p.prenom
     }
 
+
+    //filtre combinable
     public List<Patient> findWithFilters(Integer villeId, Integer docteurId, String sexe, Boolean nePasRappeler) {
         // SELECT p.*, d.*, c.*, v.*
         // FROM patient p
@@ -58,6 +60,8 @@ public class PatientService {
         telephoneRepository.save(telephone);
         // INSERT INTO telephone (id_patient, numero, type_tel) VALUES (?, ?, ?)
     }
+
+    //transctional fait en sorte qui si il y a une erreur spring rollback automatiquement pour empêcher des erreurs
 
     @Transactional
     public void deleteTelephone(Integer telephoneId) {

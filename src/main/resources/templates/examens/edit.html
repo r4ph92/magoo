@@ -18,6 +18,7 @@
 
     <div class="page-body">
         <form th:action="@{/examens/{id}(id=${examen.id})}" method="post" th:object="${examen}" style="max-width: 520px; display: flex; flex-direction: column; gap: 20px;">
+            <input type="hidden" name="returnPatientId" th:if="${returnPatientId != null}" th:value="${returnPatientId}">
 
             <div class="card card-body" style="display: flex; flex-direction: column; gap: 0;">
                 <div class="form-group">
@@ -35,10 +36,10 @@
                     <label class="form-label">Type d'examen <span class="required">*</span></label>
                     <select name="listeExamenId" class="form-control" required>
                         <option value="">— Sélectionner —</option>
-                        <option th:each="le : ${listeExamens}"
-                                th:value="${le.id}"
-                                th:text="${le.nom}"
-                                th:selected="${examen.listeExamen != null and examen.listeExamen.id == le.id}">
+                        <option th:each="type : ${listeExamens}"
+                                th:value="${type.id}"
+                                th:text="${type.nom}"
+                                th:selected="${examen.listeExamen != null and examen.listeExamen.id == type.id}">
                         </option>
                     </select>
                 </div>
@@ -50,7 +51,7 @@
 
             <div style="display: flex; gap: 10px;">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <a th:href="@{/examens}" class="btn btn-secondary">Annuler</a>
+                <a th:href="${returnPatientId != null ? '/patients/' + returnPatientId : '/examens'}" class="btn btn-secondary">Annuler</a>
             </div>
 
         </form>
